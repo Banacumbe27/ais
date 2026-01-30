@@ -20,7 +20,7 @@ topbar_labels.forEach(label=>{
     div.classList.add(label.toLowerCase());
     div.textContent=label;
     div.onclick=()=>{
-        if(label=="Home"){window.location.href="/";}
+        if(label=="Home"){window.location.href="/ais";}
         else
         {window.location.href=`${label.toLowerCase()}.html`}
     }
