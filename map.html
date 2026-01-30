@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vietnam Outbreak Map</title>
+    <title>Vietnam Outbreak Map - OUTBREAK</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://d3js.org/d3-geo-projection.v4.min.js"></script>
     <link rel="stylesheet" href="map.css">
@@ -13,20 +13,29 @@
 
 <div class="label">Map</div>
 <div class="container">
+    <div class="map-header">
+        <div class="map-title">VIETNAM OBSERVATION CENTER</div>
+        <div class="map-subtitle">Vietnam Disease Outbreak Monitoring</div>
+    </div>
+    
     <div class="controls">
-        <label>Year:</label>
+        <label>Timeline:</label>
         <input type="range" id="yearSlider" min="2000" max="2024" step="1" value="2000">
         <span id="yearVal" class="year-display">2000</span>
     </div>
 
     <div class="legend">
-        <div class="legend-item"><div class="box red"></div> Outbreak (1)</div>
-        <div class="legend-item"><div class="box blue"></div> No Outbreak (0)</div>
+        <div class="legend-item"><div class="box red"></div> Outbreak Detected</div>
+        <div class="legend-item"><div class="box blue"></div> Status Normal</div>
         <div class="legend-item"><div class="box gray"></div> No Data</div>
     </div>
 
     <div id="map-container">
         <div id="tooltip" class="tooltip"></div>
+    </div>
+    
+    <div class="map-footer">
+        Data Source: NASA Satellite & Vietnam Health Department
     </div>
 </div>
     <script src="navbar.js"></script>

@@ -44,14 +44,14 @@ const sample_data4 = {
 };
 const data_structure={
 input_classes:[
-     ["Min_Temp",["C","F","K"],"number"],
-    ["Max_Temp",["C","F","K"],"number"],
-    ["Mean_Temp",["C","F","K"],"number"],
-    ["Precipitation",["mm"],"number"],
-    ["Humidity",["%"],"number"],
-    ["Wind_Speed",["m/s"],"number"],
-    ["Population_Density",["x10p"],"number"],
-    ["Urbanization_Rate",["%"],"number"],
+     ["Min_Temp",["°C","°F","K"],"number","Minimum Temperature"],
+    ["Max_Temp",["°C","°F","K"],"number","Maximum Temperature"],
+    ["Mean_Temp",["°C","°F","K"],"number","Mean Temperature"],
+    ["Precipitation",["mm"],"number","Rainfall Amount"],
+    ["Humidity",["%"],"number","Relative Humidity"],
+    ["Wind_Speed",["m/s"],"number","Wind Speed"],
+    ["Population_Density",["p/km²"],"number","Population Density"],
+    ["Urbanization_Rate",["%"],"number","Urbanization Rate"],
 ]
 };
 
@@ -63,15 +63,23 @@ function createElementClass(type,classnames=""){
     return ele;
 }
 
-const process=createElementClass("div","row");
-const input_column=createElementClass("div","column");
+const process=createElementClass("div","row analysis-container");
+const input_column=createElementClass("div","column input-panel");
+
+// Add panel title
+const panelTitle = createElementClass("div", "input-panel-title");
+panelTitle.textContent = "Environmental Parameters";
+input_column.appendChild(panelTitle);
+
 data_structure.input_classes.forEach(input_class=>{
-const input_row=createElementClass("div","row");
+const input_row=createElementClass("div","row input-row");
 const label=createElementClass('div')
-label.classList.add("label");
-label.textContent=input_class[0]+":";
+label.classList.add("label", "input-label");
+label.textContent=input_class[0].replace("_", " ")+":";
+label.title = input_class[3]; // Tooltip with description
 const input=createElementClass("input",input_class[0].toLowerCase());
 input.type=input_class[2];
+input.placeholder = "Enter value...";
 const select=createElementClass("select",`${input_class[0].toLowerCase()}-unit`);
 
 input_class[1].forEach(unit=>{
@@ -85,33 +93,77 @@ input_row.appendChild(input);
 input_row.appendChild(select);
 input_column.appendChild(input_row);
 });
+
 const convert_button=createElementClass("input","convert-button");
 convert_button.type="button";
-convert_button.value="→";
+convert_button.value="ANALYZE";
 convert_button.onclick=()=>{
     collect_data()
 }
+
+// Result Panel
+const resultPanel = createElementClass("div", "column result-panel");
+const resultTitle = createElementClass("div", "input-panel-title");
+resultTitle.textContent = "Analysis Result";
+resultPanel.appendChild(resultTitle);
+
 const prediction=createElementClass("div","prediction");
-prediction.textContent="Disease:???";
+prediction.innerHTML = `<span class="prediction-label">Risk Level</span><span class="prediction-value">AWAITING DATA</span>`;
+
+resultPanel.appendChild(prediction);
+
+// Status indicator
+const statusIndicator = createElementClass("div", "status-indicator");
+statusIndicator.innerHTML = `<span class="status-dot"></span><span class="status-text">System Ready</span>`;
+resultPanel.appendChild(statusIndicator);
 
 process.appendChild(input_column);
 process.appendChild(convert_button);
-process.appendChild(prediction);
-prediction.style.marginTop=`${(document.body.clientHeight/4)}px`;
+process.appendChild(resultPanel);
 
-process.style.marginTop=`${navbar.clientHeight}px`
+process.style.marginTop=`${navbar ? navbar.clientHeight : 80}px`
 
 container.appendChild(process);
 
 async function collect_data(){
+    // Show loading state
+    prediction.innerHTML = `<span class="prediction-label">Processing</span><span class="prediction-value loading">ANALYZING...</span>`;
+    prediction.className = "prediction";
+    statusIndicator.innerHTML = `<span class="status-dot processing"></span><span class="status-text">Processing satellite data...</span>`;
+    
     let vals={};
     data_structure.input_classes.forEach(input_class=>{
-    vals[input_class[0].toLowerCase()]=JSON.parse(document.querySelector(`.${input_class[0].toLowerCase()}`).value);
+    const inputVal = document.querySelector(`.${input_class[0].toLowerCase()}`).value;
+    vals[input_class[0].toLowerCase()] = inputVal ? JSON.parse(inputVal) : 0;
     });
     console.log(vals);
-    let result=await fetch_model(vals);
-    console.log(result);
-    prediction.textContent=`Disease:${result.risk_percentage}`;
+    
+    try {
+        let result = await fetch_model(vals);
+        console.log(result);
+        
+        // Parse risk percentage
+        const riskValue = parseFloat(result.risk_percentage);
+        let riskClass = "low-risk";
+        let riskText = "LOW RISK";
+        
+        if (riskValue > 70) {
+            riskClass = "high-risk";
+            riskText = "HIGH RISK";
+        } else if (riskValue > 40) {
+            riskClass = "medium-risk";
+            riskText = "MEDIUM RISK";
+        }
+        
+        prediction.innerHTML = `<span class="prediction-label">${riskText}</span><span class="prediction-value">${result.risk_percentage}</span>`;
+        prediction.className = `prediction ${riskClass}`;
+        statusIndicator.innerHTML = `<span class="status-dot success"></span><span class="status-text">Analysis Complete</span>`;
+        
+    } catch (error) {
+        prediction.innerHTML = `<span class="prediction-label">Error</span><span class="prediction-value">CONNECTION FAILED</span>`;
+        prediction.className = "prediction high-risk";
+        statusIndicator.innerHTML = `<span class="status-dot error"></span><span class="status-text">Server unreachable</span>`;
+    }
 }
 const backend_url="https://phuongvu-x99.tail17da98.ts.net/predict";
 async function fetch_model(data){
