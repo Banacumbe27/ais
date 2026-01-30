@@ -106,10 +106,11 @@ container.appendChild(process);
 async function collect_data(){
     let vals={};
     data_structure.input_classes.forEach(input_class=>{
-    vals[input_class[0]]=JSON.parse(document.querySelector(`.${input_class[0].toLowerCase()}`).value);
+    vals[input_class[0].toLowerCase()]=JSON.parse(document.querySelector(`.${input_class[0].toLowerCase()}`).value);
     });
+    console.log(vals);
     let result=await fetch_model(vals);
-    console.log(result.risk_percentage);
+    console.log(result);
     prediction.textContent=`Disease:${result.risk_percentage}`;
 }
 const backend_url="https://phuongvu-x99.tail17da98.ts.net/predict";
