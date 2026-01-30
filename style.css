@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@100..900&display=swap');
+body{
+    width:100%;
+    height:100%;
+    margin:0;
+    background:url(https://tse4.mm.bing.net/th/id/OIP.7wwy2jCUPoKMkc60phGj5QHaE7?rs=1&pid=ImgDetMain&o=7&rm=3);
+    background-size: contain;
+}
+body>*{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.container{
+    width:100vw;
+    height:100vh;
+    overflow-x:hidden;
+    overflow-y:scroll;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.topbar{
+    font-family: "Bitcount Single", system-ui;
+    display:flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:fit-content;
+    min-height: 10vh;
+    background:lightgrey;
+    justify-content:space-evenly;
+}
+.topbar div{
+    font-size:4vmax;
+    width:fit-content;
+    display:block;
+    cursor:pointer;
+    user-select: none;
+    text-align: center;
+    padding:10px;
+
+}   
+.column{
+    display:flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.row{
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    
+}
+.navbar-select{
+    background:black;
+    color:red;
+    text-shadow: 4px 4px 5px red;
+    
+}
+/*===========COOL EFFECTS============*/
+
+/*====================ABOUT==========*/
+.title{
+    font-family: "Bitcount Single", system-ui;
+    font-size:5vmax;
+    color:white;
+    filter: drop-shadow(4px 4px 5px white);
+    -webkit-filter: drop-shadow(4px 4px 5px white);
+    transform-style: preserve-3d;
+    /* background:rgba(0,0,0,0.4); */
+    border-radius:100px;
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+}
+
+.slogan{
+    font-family: "Bitcount Single", system-ui;
+    filter: drop-shadow(4px 4px 5px white);
+    -webkit-filter: drop-shadow(4px 4px 5px white);
+    color:white;
+    font-size:3vmax;
+
+}
+
+
+
+@keyframes flicker {
+    0%, 5%, 100% {
+        visibility: hidden;
+        opacity:0;
+    }
+    3%, 50% {
+        visibility: visible;
+        opacity:1;
+
+    }
+}
+
+/*===============ANALYSIS=============*/
+.analysis-box input,select,.analysis-box{
+    font-size:2vmax;
+    font-family: "Bitcount Single", system-ui;
+}
+
+.analysis-box input{
+    width:fit-content;
+}
+.prediction,.label{
+    color:white;
+}
+.prediction{
+font-size:3vmax;
+}
+
+
