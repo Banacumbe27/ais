@@ -92,7 +92,7 @@ convert_button.onclick=()=>{
     collect_data()
 }
 const prediction=createElementClass("div","prediction");
-prediction.textContent="Disease:100%";
+prediction.textContent="Disease:???";
 
 process.appendChild(input_column);
 process.appendChild(convert_button);

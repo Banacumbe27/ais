@@ -1,5 +1,4 @@
 
-
 const mainPage_name="Home";
 
 //===============================
@@ -14,13 +13,13 @@ document.body.appendChild(container);
 
 const topbar=document.createElement("div");
 
-const topbar_labels=[mainPage_name,"Analysis"];
+const topbar_labels=[mainPage_name,"Analysis","Map"];
 topbar_labels.forEach(label=>{
     const div=document.createElement('div');
     div.classList.add(label.toLowerCase());
     div.textContent=label;
     div.onclick=()=>{
-        if(label=="Home"){window.location.href="/ais";}
+        if(label=="Home"){window.location.href='/ais';}
         else
         {window.location.href=`${label.toLowerCase()}.html`}
     }
@@ -40,5 +39,6 @@ label_obj.style.display="none";
 
 }
 highlightCurrentTab();
+container.style.marginTop=`${topbar.clientHeight}px`;
 
 

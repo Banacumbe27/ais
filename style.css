@@ -10,8 +10,8 @@ body>*{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .container{
-    width:100vw;
-    height:100vh;
+    width:100%;
+    height:100%;
     overflow-x:hidden;
     overflow-y:scroll;
     display:flex;
@@ -46,12 +46,18 @@ body>*{
 .column{
     display:flex;
     flex-direction: column;
-    align-items: flex-start;
+   
+}
+.center{
+ align-items: center;
+width:100vw;
+justify-content: center;
 }
 .row{
     display:flex;
     flex-direction: row;
     flex-wrap: wrap;
+   
     
 }
 .navbar-select{
@@ -59,6 +65,39 @@ body>*{
     color:red;
     text-shadow: 4px 4px 5px red;
     
+}
+@keyframes glowing {
+    0%,100%{
+    opacity:0.6;
+
+    }
+   50%{
+    opacity:1;
+   }
+}
+.start-button{
+    font-size:3vmax;
+    color:white;
+    text-shadow: 4px 4px 5px white;
+    user-select: none;
+    cursor:pointer;
+    transition:0.5s;
+    margin-top:5vmax;
+    animation:1s  linear glowing infinite;
+}
+.start-button a{
+    text-decoration: none;
+    color:white;
+}
+.start-button:hover{
+    scale:1.2;
+    animation:none;
+}
+.start-button:hover::before{
+content:">";
+}
+.start-button:hover::after{
+content:"<";
 }
 /*===========COOL EFFECTS============*/
 
@@ -78,10 +117,12 @@ body>*{
 
 .slogan{
     font-family: "Bitcount Single", system-ui;
-    filter: drop-shadow(4px 4px 5px white);
-    -webkit-filter: drop-shadow(4px 4px 5px white);
+    
     color:white;
     font-size:3vmax;
+    background-color:rgba(0,0,0,0.4);
+    text-shadow: 4px 4px 5px white;
+
 
 }
 
