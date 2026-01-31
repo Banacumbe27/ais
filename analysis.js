@@ -143,19 +143,24 @@ async function collect_data(){
         console.log(result);
         
         // Parse risk percentage
-        const riskValue = parseFloat(result.risk_percentage);
+        const riskValue = parseFloat(result.risk_score);
+        if (Number.isNaN(riskValue)) {
+            throw new Error("Invalid risk_score");
+        }
+        // console.log(riskValue > 70.0);
+        const riskPercentage = result.risk_percentage ?? `${(riskValue * 100).toFixed(2)}%`;
         let riskClass = "low-risk";
         let riskText = "LOW RISK";
         
-        if (riskValue > 70) {
+        if (riskValue > 0.7) {
             riskClass = "high-risk";
             riskText = "HIGH RISK";
-        } else if (riskValue > 40) {
+        } else if (riskValue > 0.4) {
             riskClass = "medium-risk";
             riskText = "MEDIUM RISK";
         }
         
-        prediction.innerHTML = `<span class="prediction-label">${riskText}</span><span class="prediction-value">${result.risk_percentage}</span>`;
+        prediction.innerHTML = `<span class="prediction-label">${riskText}</span><span class="prediction-value">${riskPercentage}</span>`;
         prediction.className = `prediction ${riskClass}`;
         statusIndicator.innerHTML = `<span class="status-dot success"></span><span class="status-text">Analysis Complete</span>`;
         
