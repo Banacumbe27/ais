@@ -165,7 +165,7 @@ async function collect_data(){
         statusIndicator.innerHTML = `<span class="status-dot error"></span><span class="status-text">Server unreachable</span>`;
     }
 }
-const backend_url="https://phuongvu-x99.tail17da98.ts.net/predict";
+const backend_url="https://nonartistical-retta-untaloned.ngrok-free.dev/predict";
 async function fetch_model(data){
     return await fetch(backend_url,{
         method:"post",
